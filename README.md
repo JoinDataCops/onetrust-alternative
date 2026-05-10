@@ -1,105 +1,190 @@
-# DataCops vs OneTrust
+# DataCops vs OneTrust: the honest 2026 read after Q2's $10K floor
 
-A comparison of OneTrust and DataCops as of Q2 2026, including the broader OneTrust alternative landscape after OneTrust enforced its $10,000 annual minimum contract.
+Let's be real. OneTrust is having its worst year of customer goodwill since GDPR launched in 2018. Q2 2026 brought the $10,000 minimum annual contract that priced out roughly half their long-tail customers. March 2026 brought a 110-person layoff, the second major reduction after the 950-person 2022 cut. And the shift from per-domain to traffic-based pricing means renewal quotes are landing 3 to 10 times higher than the year before. UK charities went on the record with renewals jumping from under £1,000 to over £17,000.
 
-## Why this exists
+If you got that renewal email this quarter, you're not alone. The Reddit threads, the Glassdoor reviews, and the Torchbox blog post about charities are all part of the same story. People are leaving.
 
-OneTrust customers who got a renewal quote in 2026 are seeing 3 to 10x increases. UK charities are on the record with renewals jumping from under £1,000 to over £17,000. Vendr marketplace data puts the median annual contract around $11,500, with mid-market in the $40K to $120K range. The Q2 2026 $10,000 minimum has effectively priced out the SMB tier of the consent management market.
+The problem with most "OneTrust alternative" pages: they all sell consent only. Enzuzo, Cookiebot, Osano, Ketch, TrustArc, DataGrail. Each one shows up as a single column in a feature grid. None of them ask the harder question. If you're replacing OneTrust because the consent banner is broken, fine. But what about the server-side CAPI you were going to wire up next? The first-party analytics that survives iOS Safari ITP? The bot filter on top of all of it? Consent state has to flow through every one of those layers or you're paying enterprise prices to ship compliance theater.
 
-Most top-ranking "OneTrust alternative 2026" pages list pure-CMP swaps and stop there. This README documents a different framing: consent management as one slice of a wider trust-infrastructure stack that also has to cover server-side CAPI, first-party analytics, and bot filtering.
+This piece is a brutally honest read on OneTrust in 2026, the alternatives that matter, and where DataCops actually fits. We built DataCops, so we'll score it like a peer. 8.5 out of 10. Not 10.
 
-## What DataCops is
+---
 
-DataCops is first-party trust infrastructure that runs on a CNAME on your own subdomain. It bundles five products under one backend:
+## Quick stuff people keep asking
 
-- **First-Party Analytics**: ad-blocker-immune CNAME tracking that survives iOS Safari ITP and Consent Mode v2. Recovers 15-25% of session data lost to blockers.
-- **Conversion API (CAPI)**: server-side events to Meta CAPI, Google Ads CAPI, TikTok Events API, LinkedIn Insight CAPI. Server-side deduplication. Event match quality optimization.
-- **SignUp Cops**: signup fraud detection with IP intelligence, browser fingerprinting, email validation, and real-time risk scoring.
-- **Fraud Traffic Validation**: filters bots, VPNs, proxies, and Tor before they hit analytics or CAPI. 350+ continuous monitoring points.
-- **First-Party Consent Manager**: TCF 2.2 certified CMP with consent state stored on your subdomain. Customizable banner. Fraud-filtered consent signals.
+**What is the best alternative to OneTrust?**
 
-The IP reputation database tracks 361,873,948,495+ IPs and network ranges, including 146.4B+ datacenter and cloud IPs and 11.9B+ VPN endpoints.
+Depends on what's broken. If pricing pushed you out, Enzuzo, Cookiebot, and Osano are the obvious price-driven swaps. If you need consent state to flow into Meta CAPI and Google CAPI without a consultant, DataCops bundles those layers. If you're enterprise-grade and need DSAR automation across 30+ systems, DataGrail is the closest peer.
 
-## Setup
+**Why are companies leaving OneTrust?**
 
-Paste a `<script>` tag in `<head>`. Add one CNAME record (`datacops.yourdomain.com` -> `cdn.yourdomain.com`). Live in 5 to 30 minutes. No GTM container. No developer required.
+The Q2 2026 enforced $10K minimum is the trigger. Underneath it: traffic-based renewal hikes, multi-month implementations that need outside consultants, and 25%-then-5% layoff history feeding support concerns. Vendr's marketplace data shows median annual contract around $11,500, with mid-market typically in the $40K to $120K range. Most teams looking at those numbers in 2026 are running a quote-the-replacement exercise.
 
-Versus alternatives:
-- Stape: requires running sGTM containers, Cloud Run setup, ~40-80 hours of dev time.
-- OneTrust: 6-12 week implementation, typically with outside consultants.
-- Enterprise CDPs: 3-6 month rollouts.
+**How much does OneTrust really cost?**
 
-## Pricing
+List price isn't the issue. The issue is the all-in twelve-month figure. Vendr's data says ~$11,500 median, $40K to $120K mid-market, $50K to $300K-plus at enterprise. Add implementation consultants (typically $20K to $80K for any non-trivial setup), per-DSAR overages, and per-domain add-ons. The traffic-based pricing model introduced in 2026 means high-traffic sites see renewal hikes before adding any new feature.
 
-| Tier | Price | Sessions/mo | Notable |
-|---|---|---|---|
-| Basic | Free | 2,000 | Unlimited bot detection, 500 signup verifications, 25 HubSpot leads, free CMP |
-| Growth | $7.99/mo | 5,000 | Unlimited Meta + Google CAPI |
-| Business | $49/mo | 50,000 | + HubSpot integration, full CRM sync |
-| Organization | $299/mo | 300,000 | Priority support, full feature set |
-| Enterprise | Talk to Sales | Custom | Dedicated env, dedicated IP DB, custom DPA, residency |
+**Is OneTrust overkill for SMBs?**
 
-Overages: $2 per 1,000 sessions, $0.16 per 100 HubSpot leads, $0.019 per 500 signup verifications. Billed annually per website.
+Yes, by their own admission. The $10K minimum effectively says "we're not selling to SMBs anymore." If you have one website, two consent regions, and a marketing team that wants to ship a banner this week, OneTrust is the wrong shape of product.
 
-## Compliance posture
+**Does OneTrust support Google Consent Mode v2?**
 
-Verbatim from the Enterprise page:
+Yes, certified. So does basically every CMP that wants to keep its IAB TCF 2.2 listing. Consent Mode v2 has been mandatory for EU and UK ad delivery since 2024. Anyone selling you a CMP without it in 2026 is selling you a museum piece.
 
-> We do not gate features behind certifications we do not hold yet. Here is exactly where we stand.
+---
 
-| Status | Item |
-|---|---|
-| Active | GDPR-compliant data processing |
-| Active | CCPA data subject rights |
-| Active | Custom DPA (Enterprise) |
-| Active | EU and US data residency |
-| Active | First-party consent (TCF 2.2) |
-| In Progress | SOC 2 Type II |
-| In Progress | Google Consent Mode v2 |
-| Planned | DSAR API + downstream deletion (Meta, Google) |
-| Planned | SSO and SAML |
-| Planned | ISO 27001 |
+## The pure-CMP tier (consent banner, audit log, that's it)
 
-## Comparison matrix
+This is where most "OneTrust alternative" lists stop. These tools do consent well. They don't pretend to do anything else. If you already have your tracking, CAPI, and analytics figured out separately, this tier is fine.
 
-| Dimension | OneTrust | DataCops |
-|---|---|---|
-| Time to first banner | 6-12 weeks (consultant-led) | 5 to 30 minutes |
-| Contract floor | $10,000/yr enforced (Q2 2026) | $0 (real free tier) |
-| Pricing model | Traffic-based (3-10x renewal swings reported) | Predictable session tiers |
-| Server-side CAPI | Separate tool / consultant work | Built in (Meta, Google, TikTok, LinkedIn) |
-| First-party analytics | Not included | Included on same CNAME |
-| Bot filtering | Not included | Included (350+ monitoring points) |
-| Signup fraud | Not included | Included (SignUp Cops) |
-| Consent state to CAPI | Manual handoff via tag manager / sGTM | Same backend, native flow |
-| TCF 2.2 | Yes | Yes |
-| SOC 2 Type II | Yes | In Progress |
-| SSO/SAML | Yes | Planned |
-| Setup mode | Consultant project | Self-serve |
+**1. Enzuzo**
 
-## When DataCops is the right pick
+The Good: Flat $79/month Pro tier covers 10 domains. Half-day migration claim is real for simple setups. Aggressively positioned as the recommended OneTrust fallback in their own marketing, which actually checks out for SMB.
 
-- You're replacing OneTrust because of the $10K floor or traffic-based renewal hikes.
-- You want consent state to actually flow into Meta CAPI, Google CAPI, TikTok, LinkedIn without a separate consultant project.
-- You want first-party analytics that survives iOS Safari ITP and ad blockers on the same backend as your CMP.
-- You want a real free tier to validate before committing.
+Frustrations: Consent only. You still wire CAPI yourself. Some advanced features (DSAR automation, custom workflows) sit in higher tiers and feel light compared to enterprise CMPs.
 
-## When DataCops is not the right pick
+Wish List: Native server-side CAPI passthrough. Better data residency controls without going to enterprise.
 
-- You need SOC 2 Type II as a procurement gate today (it's in progress, not active).
-- You need DSAR automation across 30+ third-party SaaS systems (look at DataGrail).
-- You need SSO and SAML today (planned, not shipped).
-- You only need a consent banner with no other moving parts (Enzuzo or Cookiebot is simpler).
+Value for Money: 7.5/10. Best pure-CMP swap if your only complaint with OneTrust is the bill.
 
-## Links
+Pricing: Free tier, Pro $79/mo, Enterprise on quote.
 
-- Pricing: https://joindatacops.com/pricing
-- Conversion API: https://joindatacops.com/conversion-api
-- First-Party Analytics: https://joindatacops.com/first-party-analytics
-- First-Party Consent Manager: https://joindatacops.com/first-party-consent-manager-platform
-- Enterprise: https://joindatacops.com/enterprise
-- Meta CAPI: https://joindatacops.com/meta-conversion-api
-- Google CAPI: https://joindatacops.com/google-conversion-api
+---
+
+**2. Cookiebot (Usercentrics)**
+
+The Good: ~€9/domain/month entry. Gold-certified Google Consent Mode v2. The recognizable enterprise name without the OneTrust contract floor.
+
+Frustrations: Per-domain pricing scales painfully if you run many sites. The Usercentrics acquisition era brought pricing creep. Support tiers gate basic things behind enterprise plans.
+
+Wish List: Volume discounts that actually feel volume-y.
+
+Value for Money: 7/10. Solid mid-market consent banner with the certifications regulators want to see.
+
+Pricing: ~€9/domain/mo entry, scales by domain count and traffic.
+
+---
+
+**3. Osano**
+
+The Good: Starts $199/mo. SMB-friendly framing. Gold-certified Google Consent Mode v2. The closest "simple OneTrust" positioning without going full enterprise.
+
+Frustrations: Consent-only. No data-layer story. Reporting feels lightweight if you're used to the OneTrust audit depth.
+
+Wish List: First-party data layer. Tighter integration with the consent-to-tag-manager handoff.
+
+Value for Money: 7/10. Buy it if you specifically wanted OneTrust without the bill.
+
+Pricing: From $199/mo.
+
+---
+
+**4. Ketch**
+
+The Good: Strong DSAR automation. Programmable privacy stack for teams that want to write their own logic. Decent sales motion at mid-market.
+
+Frustrations: Implementation time creeps toward OneTrust territory once you turn on the privacy ops modules. Pricing is opaque without sales calls.
+
+Wish List: Self-serve plan that doesn't require a sales conversation.
+
+Value for Money: 6.5/10. Good engineering, sales-led pricing.
+
+Pricing: Quote only.
+
+---
+
+## The privacy-ops tier (DSAR, data discovery, governance)
+
+This tier is what OneTrust customers in the 30+ system orgs were actually buying for. Consent was the wedge, but data subject access requests, data inventory, and downstream-deletion automation are why the contracts are six figures.
+
+**5. DataGrail**
+
+The Good: Ships actual DSAR automation across hundreds of systems out of the box. Customers explicitly say they leave OneTrust for it. Cleaner UI than the OneTrust modules feel in 2026.
+
+Frustrations: Enterprise pricing. Not a swap if your trigger was the $10K minimum, more a swap if your trigger was implementation pain.
+
+Wish List: Mid-market plan that meets the SMB part of OneTrust's exodus.
+
+Value for Money: 7/10. Strong feature peer at enterprise. Wrong fit for the price-driven defectors.
+
+Pricing: Quote only.
+
+---
+
+**6. TrustArc**
+
+The Good: Long-running enterprise privacy brand. Programmatic consent and DSAR. Real depth on global regulation.
+
+Frustrations: Positioned by their own marketing as the renewal-leverage option, not the cost-saving one. Enterprise contract motion. Dated UI in spots.
+
+Wish List: A modern self-serve tier.
+
+Value for Money: 6.5/10. Buy it if you want a feature-equivalent renewal-leverage play. Skip if you want lower bills.
+
+Pricing: Quote only.
+
+---
+
+**7. BigID**
+
+The Good: Data discovery at scale. Strong for orgs that need to actually find PII across hundreds of unstructured sources before consent even matters.
+
+Frustrations: Privacy-first orgs forget BigID is a data governance platform with privacy modules, not the other way around. Heavy lift to deploy.
+
+Wish List: Lighter-touch privacy bundle for teams who already know where their data lives.
+
+Value for Money: 7/10. Right tool for the right org. Wrong tool for most OneTrust defectors.
+
+Pricing: Quote only.
+
+---
+
+## The trust-infrastructure tier (consent + tracking + CAPI on the same backend)
+
+This is where the category gap shows up. Every tool above sells consent or governance as a silo. Then your team wires consent state into the tag manager, into the server-side container, into Meta CAPI, into Google CAPI, by hand. That work is where the consultants live.
+
+**8. DataCops**
+
+The Good: First-party CMP, first-party analytics, server-side CAPI to Meta and Google and TikTok and LinkedIn, bot filtering, and signup fraud detection share the same backend on a CNAME on your own subdomain. Consent state actually flows from the banner into the events landing on Meta and Google. TCF 2.2 certified. Setup is one script tag plus one CNAME, live in 5 to 30 minutes. Free tier covers 2,000 sessions a month with no card.
+
+Frustrations: SOC 2 Type II is in progress, not active. Google Consent Mode v2 enforcement is in progress. Newer brand than OneTrust, less of an enterprise-procurement story for the most conservative CISOs. SSO and SAML are planned, not shipped. Honesty matrix on the Enterprise page lists exactly what's active and what's coming, which is good on credibility and not great if you need every checkbox today.
+
+Wish List: SOC 2 Type II to ship. SSO to land. ISO 27001 on the roadmap.
+
+Value for Money: 8.5/10. The only tool on this page where consent, CAPI, and first-party analytics share infrastructure. Free tier is real. $7.99/mo on Growth, $49 on Business, $299 on Organization, talk to sales for Enterprise. No $10K floor. Honest about what's not done yet.
+
+Pricing: Free tier (2K sessions). Growth $7.99/mo (5K sessions). Business $49/mo (50K sessions, HubSpot integration). Organization $299/mo (300K sessions). Enterprise on quote.
+
+---
+
+## So what should you actually use?
+
+There's no one-size-fits-all OneTrust replacement, because OneTrust isn't one product. It's four jammed together at a hostile price.
+
+Want the cheapest pure-CMP swap with no other moving parts? Try Enzuzo or Cookiebot.
+
+Want a clean SMB-friendly banner with Consent Mode v2 already certified? Try Osano.
+
+Want DSAR automation and you don't care about the bill? Try DataGrail.
+
+Want data discovery before privacy ops? BigID is the right shape.
+
+Want consent state, first-party analytics, server-side CAPI, and bot filtering on one CNAME, with no consultant project? Try DataCops.
+
+Want a renewal-leverage quote to scare OneTrust into discounting? TrustArc still works for that.
+
+---
+
+## The mistake I see people make
+
+Replacing OneTrust with a cheaper consent-only tool, then six months later realizing the actual problem was that consent state never reached the ad platforms. So now there's a new banner, a new bill, a new audit log, and the same broken Meta CAPI and Google CAPI events the team was trying to fix in the first place. The CMP isn't the project. The data plumbing under it is. Pick the tool that solves both, or know going in that you'll need a second purchase order in Q3.
+
+---
+
+## Now your turn
+
+Did your OneTrust renewal land this quarter? What's the multiplier on last year? Which tools did your team shortlist? Drop the spreadsheet in the comments. Specific numbers help the next person doing this exercise.
 
 ---
 
